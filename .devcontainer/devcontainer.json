@@ -1,0 +1,30 @@
+{
+  "name": "Kamus Bugis — MongoDB + Express + Next.js + MinIO",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+
+  "forwardPorts": [3000, 4000, 9000, 9001, 27017],
+  "portsAttributes": {
+    "3000": { "label": "Frontend Next.js", "onAutoForward": "openPreview" },
+    "4000": { "label": "Backend API + Swagger" },
+    "9000": { "label": "MinIO S3 API" },
+    "9001": { "label": "MinIO Console" },
+    "27017": { "label": "MongoDB" }
+  },
+
+  "postCreateCommand": "docker compose up --build -d",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "mongodb.mongodb-vscode",
+        "ms-azuretools.vscode-docker",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  }
+}

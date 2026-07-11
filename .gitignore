@@ -1,0 +1,15 @@
+# Dependensi
+node_modules/
+
+# Build output
+.next/
+dist/
+
+# Environment (jangan commit kredensial)
+.env
+.env.local
+
+# Log & cache
+npm-debug.log*
+*.log
+.DS_Store

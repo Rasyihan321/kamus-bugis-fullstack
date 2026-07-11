@@ -1,0 +1,81 @@
+# Orkestrasi seluruh layanan aplikasi Kamus Bahasa Bugis:
+#   mongo    : database dokumen (koleksi words)
+#   minio    : object storage untuk gambar ilustrasi kata
+#   backend  : RESTful API Express JS + Swagger (port 4000)
+#   frontend : web Next.js (port 3000)
+#
+# Jalankan:  docker compose up --build
+services:
+  mongo:
+    image: mongo:7
+    container_name: kamus-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand({ ping: 1 })"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  minio:
+    image: minio/minio:latest
+    container_name: kamus-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"   # API S3
+      - "9001:9001"   # Web console MinIO
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    container_name: kamus-backend
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    environment:
+      PORT: 4000
+      MONGODB_URI: mongodb://mongo:27017/kamus_bugis
+      MINIO_ENDPOINT: minio
+      MINIO_PORT: 9000
+      MINIO_USE_SSL: "false"
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+      MINIO_BUCKET: kamus-images
+      SEED_FILE: /app/data/kamus.words-v2.json
+    volumes:
+      # Dataset kamus dipasang read-only untuk seeding otomatis
+      - ./data:/app/data:ro
+    ports:
+      - "4000:4000"
+
+  frontend:
+    build: ./frontend
+    container_name: kamus-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      # Dipakai rewrites Next.js untuk mem-proxy /api/* ke backend
+      BACKEND_URL: http://backend:4000
+    ports:
+      - "3000:3000"
+
+volumes:
+  mongo_data:
+  minio_data:
