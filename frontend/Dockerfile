@@ -8,7 +8,10 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
-# BACKEND_URL saat build tak dipakai (rewrites dibaca saat runtime dari env)
+# PENTING: pada output "standalone", next.config.mjs dievaluasi SAAT BUILD,
+# jadi BACKEND_URL harus tersedia di tahap ini (bukan hanya saat runtime).
+ARG BACKEND_URL=http://backend:4000
+ENV BACKEND_URL=$BACKEND_URL
 RUN npm run build
 
 # ---- Tahap produksi (image ringkas dari output standalone) ----

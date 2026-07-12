@@ -66,7 +66,12 @@ services:
       - "4000:4000"
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        # Disuntik saat build: output standalone Next.js membekukan
+        # nilai next.config.mjs (termasuk tujuan rewrites) saat build.
+        BACKEND_URL: http://backend:4000
     container_name: kamus-frontend
     restart: unless-stopped
     depends_on:
