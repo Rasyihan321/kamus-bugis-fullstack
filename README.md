@@ -5,14 +5,14 @@ Andi Rasyihan Jawahir · NIM 105841111524 · Kelas 4D · Informatika, Universita
 
 Aplikasi kamus digital Bahasa Bugis–Indonesia (11.745 entri) dengan tumpukan teknologi sesuai ketentuan tugas:
 
-| Komponen | Teknologi |
-|---|---|
-| Database | **MongoDB** (Mongoose, koleksi `words`) |
+| Komponen                  | Teknologi                                                                        |
+| ------------------------- | -------------------------------------------------------------------------------- |
+| Database                  | **MongoDB** (Mongoose, koleksi `words`)                                          |
 | RESTful API + dokumentasi | **Express JS** + **Swagger** (OpenAPI 3, `swagger-jsdoc` + `swagger-ui-express`) |
-| Web Frontend | **Next.js** (React, App Router) |
-| Penyimpanan gambar | **MinIO** (object storage kompatibel S3) |
-| Kontainerisasi | **Docker** + docker-compose (4 layanan) |
-| Cloud dev environment | **GitHub Codespaces** (devcontainer) |
+| Web Frontend              | **Next.js** (React, App Router)                                                  |
+| Penyimpanan gambar        | **MinIO** (object storage kompatibel S3)                                         |
+| Kontainerisasi            | **Docker** + docker-compose (4 layanan)                                          |
+| Cloud dev environment     | **GitHub Codespaces** (devcontainer)                                             |
 
 ## Arsitektur
 
@@ -28,8 +28,8 @@ Browser ──▶ Frontend Next.js (:3000)
             koleksi words            bucket kamus-images
 ```
 
-- Data kamus di-*seeding* otomatis dari `data/kamus.words-v2.json` saat backend pertama kali berjalan (jika koleksi masih kosong).
-- Gambar ilustrasi kata **tidak disimpan di MongoDB** — file fisik masuk ke bucket MinIO, MongoDB hanya menyimpan metadata (`objectName`, tipe, ukuran), dan backend men-*stream* gambar lewat `GET /api/images/{objectName}`.
+- Data kamus di-_seeding_ otomatis dari `data/kamus.words-v2.json` saat backend pertama kali berjalan (jika koleksi masih kosong).
+- Gambar ilustrasi kata **tidak disimpan di MongoDB** — file fisik masuk ke bucket MinIO, MongoDB hanya menyimpan metadata (`objectName`, tipe, ukuran), dan backend men-_stream_ gambar lewat `GET /api/images/{objectName}`.
 
 ## Cara Menjalankan
 
@@ -46,12 +46,12 @@ Browser ──▶ Frontend Next.js (:3000)
 docker compose up --build
 ```
 
-| URL | Layanan |
-|---|---|
-| http://localhost:3000 | Web frontend (Next.js) |
-| http://localhost:4000/api-docs | Dokumentasi Swagger |
-| http://localhost:9001 | Konsol MinIO (login: `minioadmin` / `minioadmin`) |
-| mongodb://localhost:27017/kamus_bugis | MongoDB |
+| URL                                   | Layanan                                           |
+| ------------------------------------- | ------------------------------------------------- |
+| http://localhost:3000                 | Web frontend (Next.js)                            |
+| http://localhost:4000/api-docs        | Dokumentasi Swagger                               |
+| http://localhost:9001                 | Konsol MinIO (login: `minioadmin` / `minioadmin`) |
+| mongodb://localhost:27017/kamus_bugis | MongoDB                                           |
 
 ### 3. Tanpa Docker (pengembangan)
 
@@ -78,17 +78,17 @@ cd backend && npm test
 
 ## Endpoint REST API
 
-| Metode | Endpoint | Deskripsi |
-|---|---|---|
-| GET | `/api/words` | Daftar kata — query: `search`, `pos`, `mainOnly`, `page`, `limit` |
-| POST | `/api/words` | Tambah entri kamus |
-| GET | `/api/words/stats` | Statistik kamus |
-| GET | `/api/words/{id}` | Detail kata + makna turunan |
-| PUT | `/api/words/{id}` | Perbarui entri |
-| DELETE | `/api/words/{id}` | Hapus entri (gambar di MinIO ikut dihapus) |
-| POST | `/api/words/{id}/image` | Upload gambar ilustrasi → MinIO (multipart, field `image`) |
-| DELETE | `/api/words/{id}/image` | Hapus gambar ilustrasi dari MinIO |
-| GET | `/api/images/{objectName}` | Stream file gambar dari MinIO |
+| Metode | Endpoint                   | Deskripsi                                                         |
+| ------ | -------------------------- | ----------------------------------------------------------------- |
+| GET    | `/api/words`               | Daftar kata — query: `search`, `pos`, `mainOnly`, `page`, `limit` |
+| POST   | `/api/words`               | Tambah entri kamus                                                |
+| GET    | `/api/words/stats`         | Statistik kamus                                                   |
+| GET    | `/api/words/{id}`          | Detail kata + makna turunan                                       |
+| PUT    | `/api/words/{id}`          | Perbarui entri                                                    |
+| DELETE | `/api/words/{id}`          | Hapus entri (gambar di MinIO ikut dihapus)                        |
+| POST   | `/api/words/{id}/image`    | Upload gambar ilustrasi → MinIO (multipart, field `image`)        |
+| DELETE | `/api/words/{id}/image`    | Hapus gambar ilustrasi dari MinIO                                 |
+| GET    | `/api/images/{objectName}` | Stream file gambar dari MinIO                                     |
 
 Dokumentasi interaktif lengkap: **`/api-docs`** (Swagger UI) — semua endpoint bisa dicoba langsung dari browser.
 

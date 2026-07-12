@@ -1,9 +1,9 @@
 // Definisi rute REST API untuk entri kamus + anotasi Swagger (OpenAPI 3).
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const wordController = require('../controllers/wordController');
-const imageController = require('../controllers/imageController');
-const { upload } = require('../middleware/upload');
+const wordController = require("../controllers/wordController");
+const imageController = require("../controllers/imageController");
+const { upload } = require("../middleware/upload");
 
 /**
  * @openapi
@@ -114,8 +114,8 @@ const { upload } = require('../middleware/upload');
  *       201: { description: Entri berhasil dibuat }
  *       400: { description: Input tidak valid }
  */
-router.get('/words', wordController.listWords);
-router.post('/words', wordController.createWord);
+router.get("/words", wordController.listWords);
+router.post("/words", wordController.createWord);
 
 /**
  * @openapi
@@ -126,7 +126,7 @@ router.post('/words', wordController.createWord);
  *     responses:
  *       200: { description: Statistik kamus }
  */
-router.get('/words/stats', wordController.getStats);
+router.get("/words/stats", wordController.getStats);
 
 /**
  * @openapi
@@ -171,9 +171,9 @@ router.get('/words/stats', wordController.getStats);
  *       200: { description: Entri berhasil dihapus }
  *       404: { description: Kata tidak ditemukan }
  */
-router.get('/words/:id', wordController.getWord);
-router.put('/words/:id', wordController.updateWord);
-router.delete('/words/:id', wordController.deleteWord);
+router.get("/words/:id", wordController.getWord);
+router.put("/words/:id", wordController.updateWord);
+router.delete("/words/:id", wordController.deleteWord);
 
 /**
  * @openapi
@@ -212,8 +212,12 @@ router.delete('/words/:id', wordController.deleteWord);
  *       200: { description: Gambar berhasil dihapus }
  *       404: { description: Kata/gambar tidak ditemukan }
  */
-router.post('/words/:id/image', upload.single('image'), imageController.uploadImage);
-router.delete('/words/:id/image', imageController.deleteImage);
+router.post(
+  "/words/:id/image",
+  upload.single("image"),
+  imageController.uploadImage,
+);
+router.delete("/words/:id/image", imageController.deleteImage);
 
 /**
  * @openapi
@@ -234,6 +238,6 @@ router.delete('/words/:id/image', imageController.deleteImage);
  *             schema: { type: string, format: binary }
  *       404: { description: Gambar tidak ditemukan }
  */
-router.get('/images/:objectName', imageController.getImage);
+router.get("/images/:objectName", imageController.getImage);
 
 module.exports = router;

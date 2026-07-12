@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
 // Halaman edit entri kamus.
-import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { fetchWord, updateWord } from '../../../../lib/api';
-import WordForm from '../../../../components/WordForm';
+import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { fetchWord, updateWord } from "../../../../lib/api";
+import WordForm from "../../../../components/WordForm";
 
 export default function EditWordPage() {
   const { id } = useParams();
   const router = useRouter();
   const [word, setWord] = useState(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetchWord(id)

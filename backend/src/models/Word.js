@@ -1,6 +1,6 @@
 // Model Mongoose untuk koleksi "words" (entri Kamus Bahasa Bugis).
 // Struktur field mengikuti dataset asli kamus.words-v2.json.
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const wordSchema = new mongoose.Schema(
   {
@@ -35,24 +35,24 @@ const wordSchema = new mongoose.Schema(
           mimeType: String,
           size: Number,
         },
-        { _id: false }
+        { _id: false },
       ),
       default: null,
     },
   },
   {
     timestamps: true,
-    collection: 'words',
+    collection: "words",
     toJSON: { virtuals: true, versionKey: false },
     toObject: { virtuals: true, versionKey: false },
-  }
+  },
 );
 
 // URL gambar yang bisa diakses lewat API (di-stream dari MinIO oleh backend)
-wordSchema.virtual('imageUrl').get(function () {
+wordSchema.virtual("imageUrl").get(function () {
   return this.image && this.image.objectName
     ? `/api/images/${this.image.objectName}`
     : null;
 });
 
-module.exports = mongoose.model('Word', wordSchema);
+module.exports = mongoose.model("Word", wordSchema);

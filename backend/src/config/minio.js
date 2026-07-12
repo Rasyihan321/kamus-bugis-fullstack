@@ -1,7 +1,7 @@
 // Klien MinIO (object storage kompatibel S3) untuk menyimpan gambar
 // ilustrasi kata. Bucket dibuat otomatis saat server pertama kali jalan.
-const Minio = require('minio');
-const config = require('./env');
+const Minio = require("minio");
+const config = require("./env");
 
 const minioClient = new Minio.Client({
   endPoint: config.minio.endPoint,
@@ -28,7 +28,7 @@ async function ensureBucket(maxRetries = 10, delayMs = 3000) {
       return;
     } catch (err) {
       console.warn(
-        `[minio] Gagal konek MinIO (percobaan ${attempt}/${maxRetries}): ${err.message}`
+        `[minio] Gagal konek MinIO (percobaan ${attempt}/${maxRetries}): ${err.message}`,
       );
       if (attempt === maxRetries) throw err;
       await sleep(delayMs);

@@ -15,7 +15,7 @@
     "27017": { "label": "MongoDB" }
   },
 
-  "postCreateCommand": "docker compose up --build -d",
+  "postCreateCommand": "docker compose up --build -d || echo 'docker compose gagal saat create — jalankan manual: docker compose up --build -d'",
 
   "customizations": {
     "vscode": {

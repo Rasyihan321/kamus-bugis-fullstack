@@ -1,5 +1,5 @@
 // Kartu ringkas satu kata pada daftar beranda.
-import Link from 'next/link';
+import Link from "next/link";
 
 export default function WordCard({ word }) {
   return (
@@ -10,14 +10,18 @@ export default function WordCard({ word }) {
           <img className="word-thumb" src={word.imageUrl} alt={word.lexem} />
         ) : (
           // Placeholder: huruf pertama lema
-          <div className="word-thumb">{(word.lexem || '?')[0].toUpperCase()}</div>
+          <div className="word-thumb">
+            {(word.lexem || "?")[0].toUpperCase()}
+          </div>
         )}
         <div>
           <h3>
             {word.lexem}
-            {word.part_of_speech && <span className="badge">{word.part_of_speech}</span>}
+            {word.part_of_speech && (
+              <span className="badge">{word.part_of_speech}</span>
+            )}
           </h3>
-          <p>{word.definition || '(tanpa definisi)'}</p>
+          <p>{word.definition || "(tanpa definisi)"}</p>
         </div>
       </div>
     </Link>

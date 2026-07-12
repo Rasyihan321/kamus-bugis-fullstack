@@ -15,7 +15,8 @@ services:
     volumes:
       - mongo_data:/data/db
     healthcheck:
-      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand({ ping: 1 })"]
+      test:
+        ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand({ ping: 1 })"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -29,8 +30,8 @@ services:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
     ports:
-      - "9000:9000"   # API S3
-      - "9001:9001"   # Web console MinIO
+      - "9000:9000" # API S3
+      - "9001:9001" # Web console MinIO
     volumes:
       - minio_data:/data
     healthcheck:

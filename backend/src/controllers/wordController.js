@@ -1,22 +1,26 @@
 // Controller CRUD untuk entri kamus (koleksi "words" di MongoDB).
-const Word = require('../models/Word');
-const { randomUUID } = require('crypto');
+const Word = require("../models/Word");
+const { randomUUID } = require("crypto");
 
 // GET /api/words — daftar kata dengan pencarian, filter, dan pagination
 exports.listWords = async (req, res, next) => {
   try {
-    const page = Math.max(parseInt(req.query.page || '1', 10), 1);
-    const limit = Math.min(Math.max(parseInt(req.query.limit || '20', 10), 1), 100);
+    const page = Math.max(parseInt(req.query.page || "1", 10), 1);
+    const limit = Math.min(
+      Math.max(parseInt(req.query.limit || "20", 10), 1),
+      100,
+    );
     const { search, pos, mainOnly } = req.query;
 
     const filter = {};
     if (search) {
       // Cari di lema maupun definisi (case-insensitive)
-      const rx = new RegExp(search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+      const rx = new RegExp(search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
       filter.$or = [{ lexem: rx }, { definition: rx }];
     }
     if (pos) filter.part_of_speech = pos;
-    if (mainOnly === 'true') filter.lexem = { ...(filter.lexem || {}), $ne: null };
+    if (mainOnly === "true")
+      filter.lexem = { ...(filter.lexem || {}), $ne: null };
 
     const [total, items] = await Promise.all([
       Word.countDocuments(filter),
@@ -44,7 +48,7 @@ exports.getStats = async (req, res, next) => {
       Word.countDocuments({ image: { $ne: null } }),
       Word.aggregate([
         { $match: { part_of_speech: { $ne: null } } },
-        { $group: { _id: '$part_of_speech', count: { $sum: 1 } } },
+        { $group: { _id: "$part_of_speech", count: { $sum: 1 } } },
         { $sort: { count: -1 } },
         { $limit: 10 },
       ]),
@@ -59,7 +63,7 @@ exports.getStats = async (req, res, next) => {
 exports.getWord = async (req, res, next) => {
   try {
     const word = await Word.findOne({ id: req.params.id });
-    if (!word) return res.status(404).json({ message: 'Kata tidak ditemukan' });
+    if (!word) return res.status(404).json({ message: "Kata tidak ditemukan" });
 
     // Ambil juga sub-makna yang menunjuk ke entri ini
     const relatedSenses = await Word.find({ related_words_id: word.id }).sort({
@@ -94,7 +98,9 @@ exports.createWord = async (req, res, next) => {
       related_words_id: req.body.related_words_id || null,
     });
 
-    res.status(201).json({ message: 'Entri kamus berhasil dibuat', data: word });
+    res
+      .status(201)
+      .json({ message: "Entri kamus berhasil dibuat", data: word });
   } catch (err) {
     next(err);
   }
@@ -105,13 +111,13 @@ exports.updateWord = async (req, res, next) => {
   try {
     // Hanya field berikut yang boleh diubah lewat API
     const allowed = [
-      'lexem',
-      'definition',
-      'part_of_speech',
-      'phonetic_form',
-      'example',
-      'example_gloss',
-      'sense_number',
+      "lexem",
+      "definition",
+      "part_of_speech",
+      "phonetic_form",
+      "example",
+      "example_gloss",
+      "sense_number",
     ];
     const updates = {};
     for (const key of allowed) {
@@ -122,9 +128,9 @@ exports.updateWord = async (req, res, next) => {
       new: true,
       runValidators: true,
     });
-    if (!word) return res.status(404).json({ message: 'Kata tidak ditemukan' });
+    if (!word) return res.status(404).json({ message: "Kata tidak ditemukan" });
 
-    res.json({ message: 'Entri kamus berhasil diperbarui', data: word });
+    res.json({ message: "Entri kamus berhasil diperbarui", data: word });
   } catch (err) {
     next(err);
   }
@@ -134,20 +140,23 @@ exports.updateWord = async (req, res, next) => {
 exports.deleteWord = async (req, res, next) => {
   try {
     const word = await Word.findOneAndDelete({ id: req.params.id });
-    if (!word) return res.status(404).json({ message: 'Kata tidak ditemukan' });
+    if (!word) return res.status(404).json({ message: "Kata tidak ditemukan" });
 
     // Bersihkan gambar dari MinIO jika ada (best-effort)
     if (word.image && word.image.objectName) {
-      const { minioClient } = require('../config/minio');
-      const config = require('../config/env');
+      const { minioClient } = require("../config/minio");
+      const config = require("../config/env");
       try {
-        await minioClient.removeObject(config.minio.bucket, word.image.objectName);
+        await minioClient.removeObject(
+          config.minio.bucket,
+          word.image.objectName,
+        );
       } catch (e) {
         console.warn(`[minio] Gagal hapus objek: ${e.message}`);
       }
     }
 
-    res.json({ message: 'Entri kamus berhasil dihapus', data: word });
+    res.json({ message: "Entri kamus berhasil dihapus", data: word });
   } catch (err) {
     next(err);
   }
