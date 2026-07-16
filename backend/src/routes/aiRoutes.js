@@ -12,7 +12,7 @@ const aiController = require("../controllers/aiController");
  *     description: >
  *       Kirim sebuah kata Bugis (mis. "anre") atau kalimat permintaan,
  *       AI membalas dengan contoh kalimat beserta terjemahannya.
- *       Menggunakan LLM di server Ollama kampus (***URL-DISENSOR***);
+ *       Menggunakan LLM di server Ollama (URL dikonfigurasi via env);
  *       jika server tak terjangkau, jawaban dirakit dari data kamus MongoDB.
  *     requestBody:
  *       required: true

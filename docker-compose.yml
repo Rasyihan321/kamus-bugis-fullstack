@@ -60,7 +60,7 @@ services:
       MINIO_BUCKET: kamus-images
       SEED_FILE: /app/data/kamus.words-v2.json
       # Fitur Chat AI — server Ollama kampus (bisa dioverride via .env)
-      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-***URL-DISENSOR***}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-}
       OLLAMA_MODEL: ${OLLAMA_MODEL:-gemma3:27b}
     volumes:
       # Dataset kamus dipasang read-only untuk seeding otomatis

@@ -1,8 +1,9 @@
 // Layanan AI pembuat contoh kalimat bahasa Bugis.
 //
 // Dua mode kerja:
-//   1. Ollama — contoh kalimat dibuat oleh LLM di server Ollama kampus
-//      (***URL-DISENSOR***) dengan konteks entri kamus MongoDB.
+//   1. Ollama — contoh kalimat dibuat oleh LLM di server Ollama
+//      (URL dikonfigurasi via env OLLAMA_BASE_URL, tidak di-hardcode)
+//      dengan konteks entri kamus MongoDB.
 //   2. Fallback lokal — jika server Ollama tak terjangkau/error, jawaban
 //      dirakit dari data kamus (contoh asli dataset + kalimat pola),
 //      sehingga fitur tetap berfungsi tanpa layanan eksternal.

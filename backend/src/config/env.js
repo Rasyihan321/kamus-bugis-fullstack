@@ -21,13 +21,14 @@ module.exports = {
     bucket: process.env.MINIO_BUCKET || "kamus-images",
   },
 
-  // Ollama (fitur AI contoh kalimat) — server LLM kampus Unismuh.
-  // Set OLLAMA_ENABLED=false untuk mematikan; fallback data kamus tetap jalan.
+  // Ollama (fitur AI contoh kalimat) — server LLM eksternal.
+  // URL TIDAK di-hardcode (sensitif): wajib diisi lewat env OLLAMA_BASE_URL.
+  // Tanpa URL, mode Ollama otomatis nonaktif — fallback data kamus tetap jalan.
   ollama: {
-    enabled: (process.env.OLLAMA_ENABLED || "true") === "true",
-    baseUrl: (
-      process.env.OLLAMA_BASE_URL || "***URL-DISENSOR***"
-    ).replace(/\/+$/, ""),
+    enabled:
+      (process.env.OLLAMA_ENABLED || "true") === "true" &&
+      Boolean(process.env.OLLAMA_BASE_URL),
+    baseUrl: (process.env.OLLAMA_BASE_URL || "").replace(/\/+$/, ""),
     model: process.env.OLLAMA_MODEL || "gemma3:27b",
     timeoutMs: parseInt(process.env.OLLAMA_TIMEOUT_MS || "60000", 10),
   },
