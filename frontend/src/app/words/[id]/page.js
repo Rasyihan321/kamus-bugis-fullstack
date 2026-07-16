@@ -7,6 +7,7 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { fetchWord, deleteWord, deleteImage } from "../../../lib/api";
 import ImageUploader from "../../../components/ImageUploader";
+import AiExamples from "../../../components/AiExamples";
 
 export default function WordDetailPage() {
   const { id } = useParams();
@@ -109,6 +110,9 @@ export default function WordDetailPage() {
           </ol>
         </div>
       )}
+
+      {/* Contoh kalimat buatan AI untuk lema ini */}
+      {word.lexem && <AiExamples lexem={word.lexem} />}
 
       {/* Upload gambar ke MinIO */}
       <ImageUploader

@@ -498,6 +498,62 @@ a {
   }
 }
 
+/* ===== Panel AI di halaman detail kata ===== */
+.ai-panel {
+  background: #f5f3ff;
+  border: 1px solid #ddd6fe;
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin: 20px 0;
+}
+.ai-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.ai-panel-head h3 {
+  margin: 0;
+  color: var(--brand-dark);
+}
+.ai-panel-desc {
+  margin: 8px 0 14px;
+  font-size: 0.9rem;
+}
+.ai-panel-loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ai-panel-loading .dots {
+  display: inline-flex;
+  gap: 4px;
+}
+.ai-panel-loading .dots i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--brand);
+  animation: chat-blink 1.2s infinite;
+}
+.ai-panel-loading .dots i:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.ai-panel-loading .dots i:nth-child(3) {
+  animation-delay: 0.4s;
+}
+.ai-panel-reply {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 0.93rem;
+  line-height: 1.55;
+}
+
 .site-footer {
   text-align: center;
   color: var(--muted);
