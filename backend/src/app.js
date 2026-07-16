@@ -6,6 +6,7 @@ const swaggerUi = require("swagger-ui-express");
 
 const swaggerSpec = require("./config/swagger");
 const wordRoutes = require("./routes/wordRoutes");
+const aiRoutes = require("./routes/aiRoutes");
 const { notFound, errorHandler } = require("./middleware/errorHandler");
 
 const app = express();
@@ -23,6 +24,7 @@ app.get("/api-docs.json", (req, res) => res.json(swaggerSpec));
 
 // Seluruh rute REST API
 app.use("/api", wordRoutes);
+app.use("/api", aiRoutes);
 
 // Root: arahkan ke dokumentasi
 app.get("/", (req, res) => res.redirect("/api-docs"));

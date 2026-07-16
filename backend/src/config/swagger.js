@@ -21,6 +21,7 @@ const options = {
     tags: [
       { name: "Words", description: "CRUD entri kamus Bugis" },
       { name: "Images", description: "Gambar ilustrasi kata (MinIO)" },
+      { name: "AI", description: "Chat AI pembuat contoh kalimat Bugis" },
     ],
   },
   // Catatan: glob harus memakai forward-slash agar bekerja juga di Windows

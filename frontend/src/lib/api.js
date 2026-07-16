@@ -70,3 +70,14 @@ export async function uploadImage(id, file) {
 export async function deleteImage(id) {
   return handle(await fetch(`/api/words/${id}/image`, { method: "DELETE" }));
 }
+
+// Chat AI: minta contoh kalimat Bugis untuk sebuah kata
+export async function askAi(message) {
+  return handle(
+    await fetch("/api/ai/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message }),
+    }),
+  );
+}

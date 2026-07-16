@@ -20,6 +20,7 @@ export default function RootLayout({ children }) {
             </Link>
             <nav className="nav">
               <Link href="/">Beranda</Link>
+              <Link href="/chat">🤖 Chat AI</Link>
               <Link href="/words/new">+ Tambah Kata</Link>
               <a href="/api-docs" target="_blank" rel="noreferrer">
                 API Docs

@@ -21,6 +21,17 @@ module.exports = {
     bucket: process.env.MINIO_BUCKET || "kamus-images",
   },
 
+  // Ollama (fitur AI contoh kalimat) — server LLM kampus Unismuh.
+  // Set OLLAMA_ENABLED=false untuk mematikan; fallback data kamus tetap jalan.
+  ollama: {
+    enabled: (process.env.OLLAMA_ENABLED || "true") === "true",
+    baseUrl: (
+      process.env.OLLAMA_BASE_URL || "***URL-DISENSOR***"
+    ).replace(/\/+$/, ""),
+    model: process.env.OLLAMA_MODEL || "gemma3:27b",
+    timeoutMs: parseInt(process.env.OLLAMA_TIMEOUT_MS || "60000", 10),
+  },
+
   // Lokasi file JSON sumber data kamus (untuk seeding awal)
   seedFile:
     process.env.SEED_FILE ||
